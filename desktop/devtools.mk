@@ -28,7 +28,8 @@ DEVTOOLS += \
 	windmill[1.6] \
         astroid[1.5.3] \
         isort[4.2.5] \
-        six[1.10.0]
+        six[1.10.0] \
+        greenlet[0.4.12]
 
 PYPI_MIRROR ?= https://pypi.python.org/simple/
 
