@@ -1782,6 +1782,19 @@ var EditorViewModel = (function() {
             rows: rows,
             startOver: startOver
           }, function (data) {
+            // Wait until we have data to fetch analysis due to bug where we can't get ExecSummary until query is closed.
+            if (self.type() === 'impala') {
+              // TODO: Use real query ID
+              huePubSub.publish('editor.update.execution.analysis', {
+                analysisPossible: true,
+                compute: self.compute(),
+                queryId: notebook.getContext().id()
+              });
+            } else {
+              huePubSub.publish('editor.update.execution.analysis', {
+                analysisPossible: false
+              });
+            }
             stopLongOperationTimeout();
             data = JSON.bigdataParse(data);
             if (data.status === 0) {
@@ -1916,20 +1929,6 @@ var EditorViewModel = (function() {
                 self.checkStatusTimeout = setTimeout(self.checkStatus, delay);
               }
             } else if (self.status() === 'available') {
-              if (self.type() === 'impala' && self.compute() && self.compute().crn && self.compute().crn.indexOf('altus') !== -1) {
-
-                // TODO: Use real query ID
-                huePubSub.publish('editor.update.execution.analysis', {
-                  analysisPossible: true,
-                  compute: self.compute(),
-                  queryId: '56433486cd84d475:3a86f97000000000'
-                });
-
-              } else {
-                huePubSub.publish('editor.update.execution.analysis', {
-                  analysisPossible: false
-                });
-              }
               self.fetchResult(100);
               self.progress(100);
               if (self.isSqlDialect()) {

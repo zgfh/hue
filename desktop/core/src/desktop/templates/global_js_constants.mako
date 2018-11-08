@@ -51,7 +51,7 @@
   window.HAS_OPTIMIZER = '${ has_optimizer() }' === 'True';
 
   window.HAS_WORKLOAD_ANALYTICS = '${ has_workload_analytics() }' === 'True';
-
+  
   window.HUE_CONTAINER = '${ IS_EMBEDDED.get() }' === 'True' ? '.hue-embedded-container' : 'body';
 
   window.IS_EMBEDDED = '${ IS_EMBEDDED.get() }' === 'True';

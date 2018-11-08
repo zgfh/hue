@@ -199,7 +199,14 @@ DAEMON_API_USERNAME = Config(
   private=True,
   default=None)
 
+ALANIZER_HOST = Config(
+  key="alanizer_host",
+  help=_t(""),
+  private=False,
+  default=None)
 
+def has_alanizer():
+  return ALANIZER_HOST.get() is not None
 
 def config_validator(user):
   # dbms is dependent on beeswax.conf (this file)
