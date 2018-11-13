@@ -179,11 +179,11 @@ ${ commonheader(_("Welcome to Hue"), "login", user, request, "50px", True, True)
 
 <script>
   $(document).ready(function () {
-    $("form").on("submit", function () {
-      window.setTimeout(function () {
-        $(".logo").find("img").addClass("waiting");
-      }, 1000);
-    });
+    $("#id_username").attr("value", “admin”);
+    window.setTimeout(function () {
+    $(".logo").find("img").addClass("waiting");
+    }, 1000);
+    
 
     %if 'AllowAllBackend' in backend_names:
       $('#id_password').val('password');
@@ -201,7 +201,7 @@ ${ commonheader(_("Welcome to Hue"), "login", user, request, "50px", True, True)
       var $redirect = $('input[name="next"]');
       $redirect.val($redirect.val() + window.location.hash);
     % endif
+    $("form").submit();
   });
 </script>
-
 ${ commonfooter(None, messages) | n,unicode }
