@@ -176,32 +176,32 @@ ${ commonheader(_("Welcome to Hue"), "login", user, request, "50px", True, True)
 %if not is_hue4():
 <div class="footer"></div>
 %endif
-
-<script>
-  $(document).ready(function () {
-    $("#id_username").attr("value", “admin”);
-    window.setTimeout(function () {
-    $(".logo").find("img").addClass("waiting");
-    }, 1000);
-    
-
-    %if 'AllowAllBackend' in backend_names:
-      $('#id_password').val('password');
-    %endif
-
-    %if backend_names == ['OAuthBackend']:
-      $("input").css({"display": "block", "margin-left": "auto", "margin-right": "auto"});
-      $("input").bind('click', function () {
-        window.location.replace('/login/oauth/');
-        return false;
-      });
-    %endif
-
-    % if next:
-      var $redirect = $('input[name="next"]');
-      $redirect.val($redirect.val() + window.location.hash);
-    % endif
-    $("form").submit();
-  });
-</script>
+$(document).ready(function () {
+   var reg = new RegExp("(^|&)"+"username"+"=([^&]*)(&|$)");
+   var r = window.location.search.substr(1).match(reg);
+   if (r!=null) {
+     r = unescape(r[2]);
+   } else {
+     r = "admin"
+   };
+   $("#id_username").val(r);
+   window.setTimeout(function () {
+   $(".logo").find("img").addClass("waiting");
+   }, 1000);
+   %if 'AllowAllBackend' in backend_names:
+     $('#id_password').val('password');
+   %endif
+   %if backend_names == ['OAuthBackend']:
+     $("input").css({"display": "block", "margin-left": "auto", "margin-right": "auto"});
+     $("input").bind('click', function () {
+       window.location.replace('/login/oauth/');
+       return false;
+     });
+   %endif
+   % if next:
+     var $redirect = $('input[name="next"]');
+     $redirect.val($redirect.val() + window.location.hash);
+   % endif
+   $("form").submit();
+ });
 ${ commonfooter(None, messages) | n,unicode }
